@@ -1,6 +1,6 @@
 # Bele Cortese — Next.js preview
 
-Primera migración a Next.js App Router + React. Las páginas hi-fi se generan desde `planning/*-alta-fidelidad.html` y se sirven en rutas limpias. Es una base de preview, no la implementación final: la próxima etapa es convertir esas páginas en componentes React y separar layout, secciones y contenido.
+Migración a Next.js App Router + React. Home y Contacto ya son componentes React con su comportamiento nativo; las otras siete páginas se sirven desde el puente generado en `content/pages.js` y se convertirán en la siguiente etapa. No es todavía la implementación final.
 
 ## Development
 

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { StaticPage } from "@/components/StaticPage";
+import HomePage from "@/components/HomePage";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata.home;
 
-export default function HomePage() {
-  return <StaticPage slug="home" withScripts />;
+export default function Page() {
+  return <HomePage />;
 }
