@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="description" content="Accesibilidad del sitio de Bele Cortese: qué está implementado, cómo se prueba, limitaciones conocidas y cómo reportar una barrera.">
+    <meta name="author" content="María Belén Cortese">
+    <title>Accesibilidad del sitio | Bele Cortese</title>
+    <link rel="canonical" href="https://belencortese.com.ar/accesibilidad-del-sitio/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_AR">
+    <meta property="og:title" content="Accesibilidad del sitio | Bele Cortese">
+    <meta property="og:description" content="Qué está implementado, cómo se prueba, limitaciones conocidas y cómo reportar una barrera en el sitio de Bele Cortese.">
+    <meta property="og:url" content="https://belencortese.com.ar/accesibilidad-del-sitio/">
+    <meta property="og:image" content="https://belencortese.com.ar/og-image.png">
+    <link rel="icon" href="../Diseños/logosolo.png" type="image/png">
+        <link rel="preload" href="fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/cormorant-garamond.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="fonts.css">
+    <link rel="stylesheet" href="utilities.css">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://belencortese.com.ar/accesibilidad-del-sitio/#webpage",
+            "url": "https://belencortese.com.ar/accesibilidad-del-sitio/",
+            "name": "Accesibilidad del sitio — Bele Cortese",
+            "description": "Qué está implementado, cómo se prueba, limitaciones conocidas y cómo reportar una barrera en el sitio de Bele Cortese.",
+            "inLanguage": "es-AR",
+            "dateModified": "2026-11-23",
+            "isPartOf": { "@id": "https://belencortese.com.ar/#website" },
+            "breadcrumb": { "@id": "https://belencortese.com.ar/accesibilidad-del-sitio/#breadcrumb" }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://belencortese.com.ar/#website",
+            "url": "https://belencortese.com.ar/",
+            "name": "Bele Cortese",
+            "inLanguage": "es-AR"
+          },
+          {
+            "@type": "Person",
+            "@id": "https://belencortese.com.ar/#belen",
+            "name": "María Belén Cortese",
+            "jobTitle": "Terapeuta Ocupacional",
+            "url": "https://belencortese.com.ar/trayectoria/"
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://belencortese.com.ar/accesibilidad-del-sitio/#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "¿Cómo reduzco el movimiento del sitio?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "El campo de esferas de la Home respeta prefers-reduced-motion y tiene un control en la navbar para pausarlo. Las demás páginas no tienen movimiento automático."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Puedo navegar solo con teclado?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Sí. Los enlaces, botones, formularios y tarjetas expandibles tienen foco visible y orden de lectura. El sitio incluye un enlace para saltar al contenido."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Funciona con lector de pantalla?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "La estructura usa HTML semántico, encabezados jerárquicos, nombres accesibles y contenido en texto. La revisión con tecnologías de asistencia forma parte de la auditoría final."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Cómo reporto una barrera?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Escribí por el canal de contacto con la página, la barrera encontrada y la tecnología que usás. El canal se confirma antes de publicar."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿El sitio declara conformidad WCAG?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "La base es WCAG 2.2 AA; se busca AAA donde sea viable. La conformidad se declara después de la auditoría final y de resolver las limitaciones conocidas."
+                }
+              }
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://belencortese.com.ar/accesibilidad-del-sitio/#breadcrumb",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://belencortese.com.ar/" },
+              { "@type": "ListItem", "position": 2, "name": "Accesibilidad del sitio", "item": "https://belencortese.com.ar/accesibilidad-del-sitio/" }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="home-alta-fidelidad.html#inicio">
+          <img src="../Diseños/logosolo.png" alt="" width="194" height="200">
+          <span>
+            <span class="brand-name"><span class="brand-name-line">BELE</span><span class="brand-name-line">CORTESE<span class="brand-slash" aria-hidden="true"></span></span></span>
+            <span class="brand-role">Neurodiversidad · Inclusión · Accesibilidad</span>
+          </span>
+        </a>
+        <nav class="main-nav" aria-label="Navegación principal">
+          <a href="clinica-alta-fidelidad.html">Clínica</a><a href="accesibilidad-alta-fidelidad.html">Accesibilidad</a><a href="formacion-alta-fidelidad.html">Formación</a><a href="we-love-to-alta-fidelidad.html">We Love TO</a><a href="contacto-alta-fidelidad.html?area=general">Contacto</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page" id="contenido">
+      <p class="planning-note"><strong>Muestra de alta fidelidad · Accesibilidad del sitio.</strong> No es el sitio publicado. Esta página es sobre la accesibilidad del sitio, no sobre el servicio profesional de accesibilidad e inclusión. <code>noindex</code> activo. Layout full-bleed.</p>
+
+      <nav aria-label="Miga de pan">
+        <ol class="breadcrumb">
+          <li><a href="home-alta-fidelidad.html#inicio">Inicio</a></li>
+          <li aria-current="page">Accesibilidad del sitio</li>
+        </ol>
+      </nav>
+
+      <section class="hero" id="accesibilidad-sitio" aria-labelledby="access-site-title">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <p class="kicker">Accesibilidad del sitio</p>
+            <h1 id="access-site-title">Un sitio para usar de distintas maneras.</h1>
+            <p class="hero-lede">Este espacio explica qué está implementado, cómo lo probamos y cómo reportar una barrera. La base es WCAG 2.2 AA y se busca AAA donde sea viable; la conformidad se declara después de la auditoría final.</p>
+            <div class="actions">
+              <a class="btn btn-primary" href="#reportar">Reportar una barrera</a>
+              <a class="btn btn-ghost" href="contacto-alta-fidelidad.html?area=general">Contacto</a>
+            </div>
+          </div>
+          <aside class="hero-card">
+            <span class="status-badge">En revisión</span>
+            <h2>Base WCAG 2.2 AA; AAA donde sea viable</h2>
+            <p>Teclado, lectores de pantalla, zoom, contraste y movimiento reducido forman parte de la revisión.</p>
+            <p class="card-note">No se declara conformidad total antes de la auditoría final y de resolver las limitaciones conocidas.</p>
+          </aside>
+        </div>
+      </section>
+
+      <p class="byline">Contenido revisado por María Belén Cortese · Planificación: noviembre 2026 · Fecha de publicación a confirmar.</p>
+
+      <section class="section" aria-labelledby="implementado-title">
+        <div class="section-head">
+          <p class="eyebrow">Qué está implementado</p>
+          <h2 id="implementado-title">Decisiones que ya están en el diseño.</h2>
+          <p>La accesibilidad se integra desde la estructura y los componentes; no se resuelve con un widget al final.</p>
+        </div>
+        <ul class="checklist">
+          <li><strong>HTML semántico y jerarquía</strong><span>Encabezados, listas, enlaces y botones con estructura comprensible.</span></li>
+          <li><strong>Teclado y foco visible</strong><span>Enlace para saltar al contenido y foco claro en controles y tarjetas.</span></li>
+          <li><strong>Contraste y color</strong><span>Pares de texto revisados; el color no es el único portador de información.</span></li>
+          <li><strong>Movimiento reducido</strong><span>El campo de esferas respeta la preferencia del sistema y tiene control en la navbar.</span></li>
+          <li><strong>Texto y zoom</strong><span>Textos legibles, sin bloques justificados ni contenido esencial dentro de imágenes.</span></li>
+          <li><strong>Formularios y enlaces</strong><span>Etiquetas visibles, instrucciones, ayuda y nombres descriptivos.</span></li>
+        </ul>
+      </section>
+
+      <section class="section" aria-labelledby="pruebas-title">
+        <div class="section-head">
+          <p class="eyebrow">Cómo lo probamos</p>
+          <h2 id="pruebas-title">Pruebas antes de publicar.</h2>
+        </div>
+        <div class="cards cards--two">
+          <article class="card">
+            <h3>Teclado</h3>
+            <p>Recorrido completo con Tab, Shift+Tab, Enter, Espacio y Escape; foco visible y sin trampas.</p>
+            <p class="meta">Desktop y móvil</p>
+          </article>
+          <article class="card">
+            <h3>Lector de pantalla</h3>
+            <p>Revisión de nombres accesibles, orden de lectura, encabezados y estados expandidos.</p>
+            <p class="meta">Tecnologías de asistencia</p>
+          </article>
+          <article class="card">
+            <h3>Zoom y responsive</h3>
+            <p>Texto al 200 %, anchos estrechos y reflow sin desplazamiento horizontal.</p>
+            <p class="meta">Móvil primero</p>
+          </article>
+          <article class="card">
+            <h3>Movimiento reducido</h3>
+            <p>Estado estático, control de pausa y conservación del contenido y los destinos.</p>
+            <p class="meta">Preferencia del sistema</p>
+          </article>
+        </div>
+        <p class="note">La auditoría final incluye pruebas manuales y con tecnologías de asistencia. Hasta entonces, esta página describe el objetivo y lo implementado, no una certificación.</p>
+      </section>
+
+      <section class="section" aria-labelledby="limitaciones-title">
+        <div class="section-head">
+          <p class="eyebrow">Limitaciones conocidas</p>
+          <h2 id="limitaciones-title">Lo que todavía se está revisando.</h2>
+        </div>
+        <div class="cards cards--two">
+          <article class="card">
+            <h3>Campo de esferas</h3>
+            <p>Tiene enlaces directos a las áreas y una alternativa de texto; se sigue probando con teclado y lectores de pantalla.</p>
+            <p class="meta">Home</p>
+          </article>
+          <article class="card">
+            <h3>Imágenes pendientes</h3>
+            <p>Las fotos autorizadas todavía no están cargadas. Ninguna información esencial depende de ellas.</p>
+            <p class="meta">Contenido</p>
+          </article>
+          <article class="card">
+            <h3>Formulario de contacto</h3>
+            <p>El formulario es una muestra de diseño; el envío y la validación final se conectan antes de publicar.</p>
+            <p class="meta">Contacto</p>
+          </article>
+          <article class="card">
+            <h3>Muestras de planificación</h3>
+            <p>Las muestras llevan noindex y no forman parte del sitio público.</p>
+            <p class="meta">Planificación</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="reportar" aria-labelledby="reportar-title">
+        <div class="report-card">
+          <h2 id="reportar-title">¿Encontraste una barrera?</h2>
+          <p>Escribí por el canal de contacto con la página, la barrera encontrada y la tecnología que usás. Si podés, incluí el paso exacto donde ocurre.</p>
+          <a class="btn" href="contacto-alta-fidelidad.html">Ir a Contacto</a>
+          <p class="note" style="margin-top:.8rem; background:transparent; color:#D9E2DF; border-left-color:var(--neon)">El canal para reportar barreras se confirma antes de publicar.</p>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="faq-title">
+        <div class="section-head">
+          <p class="eyebrow">Preguntas frecuentes</p>
+          <h2 id="faq-title">Sobre el uso del sitio.</h2>
+        </div>
+        <div class="faq">
+          <details>
+            <summary>¿Cómo reduzco el movimiento del sitio?</summary>
+            <p>El campo de esferas de la Home respeta prefers-reduced-motion y tiene un control en la navbar para pausarlo. Las demás páginas no tienen movimiento automático.</p>
+          </details>
+          <details>
+            <summary>¿Puedo navegar solo con teclado?</summary>
+            <p>Sí. Los enlaces, botones, formularios y tarjetas expandibles tienen foco visible y orden de lectura. El sitio incluye un enlace para saltar al contenido.</p>
+          </details>
+          <details>
+            <summary>¿Funciona con lector de pantalla?</summary>
+            <p>La estructura usa HTML semántico, encabezados jerárquicos, nombres accesibles y contenido en texto. La revisión con tecnologías de asistencia forma parte de la auditoría final.</p>
+          </details>
+          <details>
+            <summary>¿Cómo reporto una barrera?</summary>
+            <p>Escribí por el canal de contacto con la página, la barrera encontrada y la tecnología que usás. El canal se confirma antes de publicar.</p>
+          </details>
+          <details>
+            <summary>¿El sitio declara conformidad WCAG?</summary>
+            <p>La base es WCAG 2.2 AA; se busca AAA donde sea viable. La conformidad se declara después de la auditoría final y de resolver las limitaciones conocidas.</p>
+          </details>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <div>
+          <p class="eyebrow" style="color:var(--neon)">Bele Cortese</p>
+          <h2>Una marca, cuatro recorridos.</h2>
+          <p>Accesibilidad del sitio es una utilidad transversal, distinta del servicio profesional de accesibilidad e inclusión.</p>
+        </div>
+        <div>
+          <nav class="footer-links" aria-label="Enlaces del sitio">
+            <a href="home-alta-fidelidad.html#inicio">Inicio</a><a href="clinica-alta-fidelidad.html">Clínica</a><a href="accesibilidad-alta-fidelidad.html">Accesibilidad</a><a href="formacion-alta-fidelidad.html">Formación</a><a href="we-love-to-alta-fidelidad.html">We Love TO</a><a href="trayectoria-alta-fidelidad.html">Trayectoria</a><a href="contacto-alta-fidelidad.html?area=general">Contacto</a><a href="#accesibilidad-sitio">Accesibilidad del sitio</a><a href="privacidad-alta-fidelidad.html">Privacidad</a><a href="https://www.instagram.com/to.belencortese/" target="_blank" rel="noopener noreferrer">Instagram · externo</a>
+          </nav>
+          <p class="footer-note">Muestra de planificación · sin implementación de producción · auditoría y canal de reporte a confirmar.</p>
+        </div>
+      </footer>
+    </main>
+      <script src="consent.js" data-privacy-url="privacidad-alta-fidelidad.html#cookies" defer></script>
+  </body>
+</html>

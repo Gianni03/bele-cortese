@@ -1,0 +1,23 @@
+node_modules
+.next
+out
+dist
+.vercel
+.env
+.env.local
+.env*.local
+.DS_Store
+*.log
+
+# Internal planning and client-review material stays local.
+odd/
+planning/*
+!planning/*-alta-fidelidad.html
+!planning/fonts/
+!planning/fonts/**
+!planning/fonts.css
+!planning/utilities.css
+!planning/consent.js
+!planning/consent.css
+!planning/og-source.html
+planning/recorridos-alta-fidelidad.html

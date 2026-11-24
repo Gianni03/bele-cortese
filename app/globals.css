@@ -1,0 +1,9 @@
+@import "./fonts.css";
+@import "./utilities.css";
+
+/* The Next preview is not the production build yet. Hide review-only chrome. */
+.planning-note,
+.byline,
+.footer-note {
+  display: none !important;
+}
