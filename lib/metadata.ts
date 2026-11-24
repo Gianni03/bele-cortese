@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://belencortese.com.ar";
+const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://bele-cortese.vercel.app";
 export const siteUrl = rawSiteUrl.replace(/\/$/, "");
 
 export const sharedMetadata: Metadata = {

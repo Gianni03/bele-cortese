@@ -11,6 +11,8 @@ npm run dev
 
 Abrir `http://localhost:3000`.
 
+Preview público: https://bele-cortese.vercel.app/ (hasta que esté el dominio final).
+
 ## Content generation
 
 ```bash
@@ -27,7 +29,7 @@ Copiar `.env.example` a `.env.local` y completar:
 RESEND_API_KEY=
 CONTACT_TO=
 CONTACT_FROM=
-NEXT_PUBLIC_SITE_URL=https://belencortese.com.ar
+NEXT_PUBLIC_SITE_URL=https://bele-cortese.vercel.app
 ```
 
 El endpoint del formulario es `POST /api/contacto` y usa la lógica testeada de `lib/contacto.js`.
