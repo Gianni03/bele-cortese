@@ -186,11 +186,14 @@ export default function HomePage() {
   const [pinned, setPinned] = useState(false);
   const [cardStyle, setCardStyle] = useState<CSSProperties | null>(null);
   const [isClosing, setIsClosing] = useState(false);
+  const [cardSettled, setCardSettled] = useState(false);
   const [motionEnabled, setMotionEnabled] = useState(true);
   const [contactArea, setContactArea] = useState("");
 
   const sphereRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const cardRefs = useRef<Record<string, HTMLElement | null>>({});
   const cardCloseTimer = useRef<number | null>(null);
+  const cardSettleTimer = useRef<number | null>(null);
   const hoverCloseTimer = useRef<number | null>(null);
   const suppressFocusOpen = useRef(false);
   const motionChoiceMade = useRef(false);
@@ -218,6 +221,14 @@ export default function HomePage() {
     clearHoverClose();
     const active = openSphere;
     const trigger = sphereRefs.current[active];
+    const hadFocus = cardRefs.current[active]?.contains(document.activeElement) ?? false;
+    const shouldReturnFocus = options.returnFocus ?? hadFocus;
+
+    if (cardSettleTimer.current !== null) {
+      window.clearTimeout(cardSettleTimer.current);
+      cardSettleTimer.current = null;
+    }
+    setCardSettled(false);
 
     if (!trigger) {
       setOpenSphere(null);
@@ -237,7 +248,7 @@ export default function HomePage() {
       setCardStyle(null);
       setIsClosing(false);
 
-      if (options.returnFocus) {
+      if (shouldReturnFocus) {
         suppressFocusOpen.current = true;
         sphereRefs.current[active]?.focus();
         window.setTimeout(() => {
@@ -247,24 +258,39 @@ export default function HomePage() {
     }, 460);
   };
 
-  const openCard = (name: string, pin = false) => {
+  const openCard = (name: string, pin = false, focusCard = false) => {
     const trigger = sphereRefs.current[name];
     if (!trigger) return;
 
     clearHoverClose();
     if (cardCloseTimer.current !== null) window.clearTimeout(cardCloseTimer.current);
+    if (cardSettleTimer.current !== null) window.clearTimeout(cardSettleTimer.current);
 
     const { start, end } = getCardStyles(trigger, name);
     setIsClosing(false);
+    setCardSettled(false);
     setPinned(pin);
     setCardStyle(start);
     setOpenSphere(name);
+
+    if (focusCard) {
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          cardRefs.current[name]?.focus({ preventScroll: true });
+        });
+      });
+    }
 
     window.requestAnimationFrame(() => {
       window.requestAnimationFrame(() => {
         setCardStyle(end);
       });
     });
+
+    cardSettleTimer.current = window.setTimeout(() => {
+      setCardSettled(true);
+      cardSettleTimer.current = null;
+    }, 470);
   };
 
   useEffect(() => {
@@ -284,37 +310,56 @@ export default function HomePage() {
   }, [motionEnabled]);
 
   useEffect(() => {
+    let viewportWidth = window.innerWidth;
+
     const handlePointerDown = (event: PointerEvent) => {
       const target = event.target instanceof Element ? event.target : null;
-      if (openSphere && !target?.closest("[data-sphere], [data-orbit-card]")) closeCard();
+      if (openSphere && !target?.closest("[data-sphere], [data-orbit-card]")) {
+        closeCard({ returnFocus: false });
+      }
     };
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape" && openSphere) closeCard({ returnFocus: true });
       if (["PageDown", "PageUp"].includes(event.key) && openSphere) closeCard();
     };
-    const handleClose = () => {
-      if (openSphere) closeCard();
+    const handleWheel = (event: WheelEvent) => {
+      if (!openSphere) return;
+      const target = event.target instanceof Element ? event.target : null;
+      const card = target?.closest<HTMLElement>("[data-orbit-card]");
+      if (!card || card.scrollHeight <= card.clientHeight) closeCard();
+    };
+    const handleTouchMove = (event: TouchEvent) => {
+      if (!openSphere) return;
+      const target = event.target instanceof Element ? event.target : null;
+      const card = target?.closest<HTMLElement>("[data-orbit-card]");
+      if (!card || card.scrollHeight <= card.clientHeight) closeCard();
+    };
+    const handleResize = () => {
+      if (openSphere && window.innerWidth !== viewportWidth) closeCard();
+      viewportWidth = window.innerWidth;
     };
 
     document.addEventListener("pointerdown", handlePointerDown);
     document.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("wheel", handleClose, { passive: true });
-    window.addEventListener("touchmove", handleClose, { passive: true });
-    window.addEventListener("resize", handleClose);
+    window.addEventListener("wheel", handleWheel, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+    window.addEventListener("resize", handleResize);
 
     return () => {
       document.removeEventListener("pointerdown", handlePointerDown);
       document.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("wheel", handleClose);
-      window.removeEventListener("touchmove", handleClose);
-      window.removeEventListener("resize", handleClose);
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("resize", handleResize);
     };
   }, [openSphere]);
 
   const handleStageFocus = (event: FocusEvent<HTMLElement>) => {
     if (suppressFocusOpen.current) return;
     const target = event.target instanceof Element ? event.target.closest("[data-sphere]") : null;
-    if (target) openCard(target.getAttribute("data-sphere") || "", false);
+    if (target?.matches(":focus-visible")) {
+      openCard(target.getAttribute("data-sphere") || "", false, true);
+    }
   };
 
   const contactHref = contactArea ? `/contacto?area=${contactArea}` : "/contacto";
@@ -367,7 +412,7 @@ export default function HomePage() {
           <div className="hero-copy">
             <p className="eyebrow">Terapia Ocupacional · Neurodiversidad · Inclusión</p>
             <h1 id="hero-title" aria-label="Bele Cortese">
-              <span className="wordmark-line">BELE</span>
+              <span className="wordmark-line">BELE</span>{" "}
               <span className="wordmark-line">CORTESE<span className="brand-slash" aria-hidden="true" /></span>
             </h1>
             <span className="tagline">Otra manera de mirar.</span>
@@ -407,6 +452,7 @@ export default function HomePage() {
                 data-sphere={area.name}
                 aria-expanded={openSphere === area.name}
                 aria-controls={`orbit-card-${area.name}`}
+                tabIndex={openSphere === area.name ? -1 : undefined}
                 inert={Boolean(openSphere && openSphere !== area.name)}
                 onPointerEnter={(event) => {
                   if (openSphere === area.name) return;
@@ -424,10 +470,12 @@ export default function HomePage() {
             {areas.map((area) => (
               <article
                 key={area.name}
-                className={`orbit-card ${area.cardClass}${openSphere === area.name ? " is-open" : ""}${isClosing ? " is-closing" : ""}`}
+                ref={(node) => { cardRefs.current[area.name] = node; }}
+                className={`orbit-card ${area.cardClass}${openSphere === area.name ? " is-open" : ""}${isClosing ? " is-closing" : ""}${openSphere === area.name && cardSettled ? " is-settled" : ""}`}
                 id={`orbit-card-${area.name}`}
                 data-orbit-card={area.name}
                 data-side={area.side}
+                tabIndex={-1}
                 aria-labelledby={`orbit-card-${area.name}-title`}
                 aria-hidden={openSphere !== area.name}
                 inert={openSphere !== area.name}
