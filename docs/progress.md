@@ -14,7 +14,8 @@
 | Endpoint de contacto | Listo | `POST /api/contacto/`; 16 tests |
 | Home | Componente React | Movimiento pendiente de ajuste |
 | Contacto | Componente React | Canales y contenido real pendientes |
-| Otras siete páginas | Puente HTML | Migrar a React, una por PR |
+| Clínica | Componente React | Contenido y canales pendientes |
+| Otras seis páginas | Puente HTML | Migrar a React, una por PR |
 | GA4 | Implementado con consentimiento | Falta validación en producción |
 | `noindex` | Activo | Retirar solo con contenido y legal aprobados |
 | Contenido y revisión legal | Pendiente | Depende de Belén |
@@ -39,16 +40,15 @@ Las correcciones futuras siguen el mismo circuito: `fix/<tema>` → PR → previ
 
 | Orden | Rama | Alcance |
 |---|---|---|
-| 1 | `chore/progress-and-ci` | Tablero, CI y `.env.example` |
-| 2 | `feat/componentize-clinica` | Clínica a React |
-| 3 | `feat/componentize-accesibilidad` | Accesibilidad e inclusión a React |
-| 4 | `feat/componentize-formacion` | Formación y experiencias a React |
-| 5 | `feat/componentize-welove` | We Love TO a React |
-| 6 | `feat/componentize-trayectoria` | Trayectoria a React |
-| 7 | `feat/componentize-utilidades` | Accesibilidad del sitio y Privacidad |
-| 8 | `fix/home-motion` | Ajustar el movimiento de Home |
-| 9 | `content/cliente` | Reemplazar placeholders y revisar legal |
-| 10 | `chore/launch` | Retirar `noindex`, sitemap/robots, QA final |
+| 1 | `feat/componentize-clinica` | Clínica a React |
+| 2 | `feat/componentize-accesibilidad` | Accesibilidad e inclusión a React |
+| 3 | `feat/componentize-formacion` | Formación y experiencias a React |
+| 4 | `feat/componentize-welove` | We Love TO a React |
+| 5 | `feat/componentize-trayectoria` | Trayectoria a React |
+| 6 | `feat/componentize-utilidades` | Accesibilidad del sitio y Privacidad |
+| 7 | `fix/home-motion` | Ajustar el movimiento de Home |
+| 8 | `content/cliente` | Reemplazar placeholders y revisar legal |
+| 9 | `chore/launch` | Retirar `noindex`, sitemap/robots, QA final |
 
 ## Criterio de terminado por página
 
