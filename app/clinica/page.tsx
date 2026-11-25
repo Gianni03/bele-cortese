@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { StaticPage } from "@/components/StaticPage";
+import ClinicaPage from "@/components/ClinicaPage";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata.clinica;
 
-export default function ClinicaPage() {
-  return <StaticPage slug="clinica" />;
+export default function Page() {
+  return <ClinicaPage />;
 }
