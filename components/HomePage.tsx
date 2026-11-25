@@ -331,7 +331,7 @@ export default function HomePage() {
           >
             <svg className="orbit-path" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
               <path className="ring" d="M50 14 C67 14 81 28 86 43 C90 57 83 73 70 82 C57 91 39 89 27 81 C13 71 9 53 15 37 C21 22 34 14 50 14Z" />
-              <path className="pulse" d="M40 15 H45 L48 12 L51 19 L54 10 L58 17 H64" />
+              <path className="ring-pulse" pathLength="100" d="M50 14 C67 14 81 28 86 43 C90 57 83 73 70 82 C57 91 39 89 27 81 C13 71 9 53 15 37 C21 22 34 14 50 14Z" />
             </svg>
 
             {areas.map((area) => (
