@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState, type FocusEvent } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type FocusEvent } from "react";
 import { pages } from "@/content/pages";
 
 type Area = {
@@ -71,60 +71,104 @@ const areas: Area[] = [
 
 type CloseOptions = { returnFocus?: boolean };
 
+const cardFinalBackground: Record<string, string> = {
+  clinic: "#0B3A42",
+  access: "var(--cream)",
+  training: "var(--neon)",
+  welove: "var(--black)",
+};
+
+function getCardStyles(trigger: HTMLButtonElement, name: string) {
+  const rect = trigger.getBoundingClientRect();
+  const computed = getComputedStyle(trigger);
+  const width = Math.min(400, window.innerWidth - 32);
+  const height = Math.min(520, window.innerHeight - 120);
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+  const left = Math.max(16, Math.min(centerX - width / 2, window.innerWidth - width - 16));
+  const top = Math.max(88, Math.min(centerY - height / 2, window.innerHeight - height - 16));
+
+  const start: CSSProperties = {
+    top: rect.top,
+    left: rect.left,
+    width: rect.width,
+    height: rect.height,
+    borderRadius: computed.borderRadius,
+    backgroundColor: computed.backgroundColor,
+  };
+
+  const end: CSSProperties = {
+    top,
+    left,
+    width,
+    height,
+    borderRadius: "0.9rem",
+    backgroundColor: cardFinalBackground[name],
+  };
+
+  return { start, end };
+}
+
 export default function HomePage() {
   const [openSphere, setOpenSphere] = useState<string | null>(null);
-  const [pinned, setPinned] = useState(false);
-  const [cardTop, setCardTop] = useState<number | null>(null);
+  const [cardStyle, setCardStyle] = useState<CSSProperties | null>(null);
+  const [isClosing, setIsClosing] = useState(false);
   const [motionEnabled, setMotionEnabled] = useState(true);
   const [contactArea, setContactArea] = useState("");
 
   const sphereRefs = useRef<Record<string, HTMLButtonElement | null>>({});
-  const cardRefs = useRef<Record<string, HTMLElement | null>>({});
-  const closeTimer = useRef<number | null>(null);
+  const cardCloseTimer = useRef<number | null>(null);
   const suppressFocusOpen = useRef(false);
   const motionChoiceMade = useRef(false);
 
-  const clearCloseTimer = () => {
-    if (closeTimer.current !== null) window.clearTimeout(closeTimer.current);
-    closeTimer.current = null;
-  };
-
   const closeCard = (options: CloseOptions = {}) => {
-    clearCloseTimer();
     if (!openSphere) return;
     const active = openSphere;
-    setPinned(false);
-    setOpenSphere(null);
-    setCardTop(null);
+    const trigger = sphereRefs.current[active];
 
-    if (options.returnFocus) {
-      suppressFocusOpen.current = true;
-      window.requestAnimationFrame(() => {
+    if (!trigger) {
+      setOpenSphere(null);
+      setCardStyle(null);
+      setIsClosing(false);
+      return;
+    }
+
+    const { start } = getCardStyles(trigger, active);
+    setCardStyle(start);
+    setIsClosing(true);
+
+    if (cardCloseTimer.current !== null) window.clearTimeout(cardCloseTimer.current);
+    cardCloseTimer.current = window.setTimeout(() => {
+      setOpenSphere(null);
+      setCardStyle(null);
+      setIsClosing(false);
+
+      if (options.returnFocus) {
+        suppressFocusOpen.current = true;
         sphereRefs.current[active]?.focus();
         window.setTimeout(() => {
           suppressFocusOpen.current = false;
         }, 0);
-      });
-    }
+      }
+    }, 380);
   };
 
-  const openCard = (name: string, pin = false) => {
-    clearCloseTimer();
-    setPinned(pin);
+  const openCard = (name: string) => {
+    const trigger = sphereRefs.current[name];
+    if (!trigger) return;
+
+    if (cardCloseTimer.current !== null) window.clearTimeout(cardCloseTimer.current);
+
+    const { start, end } = getCardStyles(trigger, name);
+    setIsClosing(false);
+    setCardStyle(start);
     setOpenSphere(name);
-  };
 
-  const scheduleClose = () => {
-    if (pinned) return;
-    clearCloseTimer();
-    closeTimer.current = window.setTimeout(() => {
-      if (!openSphere || pinned) return;
-      const trigger = sphereRefs.current[openSphere];
-      const card = cardRefs.current[openSphere];
-      const pointerOnActiveRegion = trigger?.matches(":hover") || card?.matches(":hover");
-      const focusInActiveRegion = trigger?.matches(":focus") || card?.contains(document.activeElement);
-      if (!pointerOnActiveRegion && !focusInActiveRegion) closeCard();
-    }, 700);
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        setCardStyle(end);
+      });
+    });
   };
 
   useEffect(() => {
@@ -142,35 +186,6 @@ export default function HomePage() {
     document.body.classList.toggle("motion-enabled", motionEnabled);
     return () => document.body.classList.remove("motion-enabled");
   }, [motionEnabled]);
-
-  useLayoutEffect(() => {
-    if (!openSphere) {
-      setCardTop(null);
-      return;
-    }
-
-    const updatePosition = () => {
-      if (!window.matchMedia("(min-width: 940px)").matches) {
-        setCardTop(null);
-        return;
-      }
-
-      const trigger = sphereRefs.current[openSphere];
-      const card = cardRefs.current[openSphere];
-      if (!trigger || !card) return;
-
-      const triggerRect = trigger.getBoundingClientRect();
-      const cardRect = card.getBoundingClientRect();
-      const minTop = 88;
-      const maxTop = window.innerHeight - cardRect.height - 16;
-      const top = Math.max(minTop, Math.min(triggerRect.top + triggerRect.height / 2 - cardRect.height / 2, maxTop));
-      setCardTop(top);
-    };
-
-    updatePosition();
-    window.addEventListener("resize", updatePosition);
-    return () => window.removeEventListener("resize", updatePosition);
-  }, [openSphere]);
 
   useEffect(() => {
     const handlePointerDown = (event: PointerEvent) => {
@@ -203,14 +218,7 @@ export default function HomePage() {
   const handleStageFocus = (event: FocusEvent<HTMLElement>) => {
     if (suppressFocusOpen.current) return;
     const target = event.target instanceof Element ? event.target.closest("[data-sphere]") : null;
-    if (target) openCard(target.getAttribute("data-sphere") || "", true);
-  };
-
-  const handleStageBlur = (event: FocusEvent<HTMLElement>) => {
-    const currentTarget = event.currentTarget;
-    window.setTimeout(() => {
-      if (!pinned && openSphere && !currentTarget.contains(document.activeElement)) closeCard();
-    }, 0);
+    if (target) openCard(target.getAttribute("data-sphere") || "");
   };
 
   const contactHref = contactArea ? `/contacto?area=${contactArea}` : "/contacto";
@@ -296,7 +304,6 @@ export default function HomePage() {
             aria-labelledby="orbit-caption"
             data-open={openSphere || undefined}
             onFocus={handleStageFocus}
-            onBlur={handleStageBlur}
           >
             <svg className="orbit-path" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
               <path className="ring" d="M50 14 C67 14 81 28 86 43 C90 57 83 73 70 82 C57 91 39 89 27 81 C13 71 9 53 15 37 C21 22 34 14 50 14Z" />
@@ -315,12 +322,9 @@ export default function HomePage() {
                 inert={Boolean(openSphere && openSphere !== area.name)}
                 onPointerEnter={(event) => {
                   if (openSphere === area.name) return;
-                  if (event.pointerType === "mouse" || event.pointerType === "pen") openCard(area.name, true);
+                  if (event.pointerType === "mouse" || event.pointerType === "pen") openCard(area.name);
                 }}
-                onPointerLeave={(event) => {
-                  if (event.pointerType === "mouse" || event.pointerType === "pen") scheduleClose();
-                }}
-                onClick={() => openCard(area.name, true)}
+                onClick={() => openCard(area.name)}
               >
                 <span className="sphere-label">{area.label}</span>
               </button>
@@ -329,19 +333,14 @@ export default function HomePage() {
             {areas.map((area) => (
               <article
                 key={area.name}
-                ref={(node) => { cardRefs.current[area.name] = node; }}
-                className={`orbit-card ${area.cardClass}${openSphere === area.name ? " is-open" : ""}`}
+                className={`orbit-card ${area.cardClass}${openSphere === area.name ? " is-open" : ""}${isClosing ? " is-closing" : ""}`}
                 id={`orbit-card-${area.name}`}
                 data-orbit-card={area.name}
                 data-side={area.side}
                 aria-labelledby={`orbit-card-${area.name}-title`}
                 aria-hidden={openSphere !== area.name}
                 inert={openSphere !== area.name}
-                style={openSphere === area.name && cardTop !== null ? { top: `${cardTop}px` } : undefined}
-                onPointerEnter={clearCloseTimer}
-                onPointerLeave={(event) => {
-                  if (event.pointerType === "mouse" || event.pointerType === "pen") scheduleClose();
-                }}
+                style={openSphere === area.name ? cardStyle ?? undefined : undefined}
               >
                 {area.guard ? <div className="expanded-guard" aria-hidden="true" /> : null}
                 <p className="expanded-label">{area.eyebrow}</p>
