@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { StaticPage } from "@/components/StaticPage";
+import FormacionPage from "@/components/FormacionPage";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata.formacion;
 
-export default function FormacionPage() {
-  return <StaticPage slug="formacion" />;
+export default function Page() {
+  return <FormacionPage />;
 }
