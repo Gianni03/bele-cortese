@@ -372,12 +372,6 @@ export default function HomePage() {
             </h1>
             <span className="tagline">Otra manera de mirar.</span>
             <p className="descriptor">Neurodiversidad · Inclusión · Accesibilidad</p>
-            <p className="hero-support">Una marca, cuatro formas de acompañar y trabajar: clínica, accesibilidad, formación y comunidad profesional.</p>
-            <div className="actions">
-              <a className="btn btn-primary" href="#areas">Explorar las áreas</a>
-              <a className="btn btn-ghost" href="/trayectoria">Conocer la trayectoria</a>
-            </div>
-            <p className="hero-byline">María Belén Cortese · Terapeuta Ocupacional · <a href="/trayectoria">Trayectoria</a></p>
           </div>
           <div className="hero-art" aria-hidden="true">
             <img className="dot-mark" src="/Diseños/logosolo.png" alt="" width="194" height="200" />
@@ -389,9 +383,7 @@ export default function HomePage() {
             <div className="areas-head">
               <p className="eyebrow">Una identidad · cuatro recorridos</p>
               <h2 id="areas-title">Elegí por dónde empezar.</h2>
-              <p>Cuatro esferas fijas conectadas por un trazo sonograma. Se ondulan los bordes, se dispersa el halo y el trazo pulsa; no orbitan ni cambian de posición. Hover o foco abre la card; en móvil, tocar. Se cierra al tocar fuera o hacer scroll.</p>
             </div>
-            <p className="stage-help">Movimiento activo por defecto; se pausa desde la navbar. Si el sistema prefiere movimiento reducido, inicia estático. Sin flecha/X: se cierra al tocar fuera, hacer scroll o presionar Escape.</p>
           </div>
 
           <figure
