@@ -71,6 +71,78 @@ const areas: Area[] = [
 
 type CloseOptions = { returnFocus?: boolean };
 
+const WAVE_LINES = 7;
+const WAVE_WAVES = 7;
+const WAVE_SEGMENTS = 120;
+
+function wavePath(radius: number, phase: number, amplitude: number) {
+  const points: string[] = [];
+
+  for (let step = 0; step <= WAVE_SEGMENTS; step += 1) {
+    const angle = (step / WAVE_SEGMENTS) * Math.PI * 2;
+    const wobble = Math.sin(angle * WAVE_WAVES + phase) * amplitude;
+    const currentRadius = radius + wobble;
+    const x = 50 + Math.cos(angle) * currentRadius;
+    const y = 50 + Math.sin(angle) * currentRadius;
+    points.push(`${step === 0 ? "M" : "L"}${x.toFixed(2)},${y.toFixed(2)}`);
+  }
+
+  return `${points.join(" ")} Z`;
+}
+
+function SonarRing({ active }: { active: boolean }) {
+  const pathRefs = useRef<Array<SVGPathElement | null>>([]);
+
+  useEffect(() => {
+    let frame = 0;
+
+    const draw = (time: number) => {
+      const phase = time * 0.00055;
+
+      pathRefs.current.forEach((path, index) => {
+        if (!path) return;
+        path.setAttribute(
+          "d",
+          wavePath(33 + index * 1.05, phase + index * 0.38, 0.8 + index * 0.07),
+        );
+      });
+
+      if (active) frame = window.requestAnimationFrame(draw);
+    };
+
+    draw(0);
+    if (active) frame = window.requestAnimationFrame(draw);
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [active]);
+
+  return (
+    <g className="sound-wave">
+      <defs>
+        <linearGradient id="sound-wave-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#E8F000" />
+          <stop offset="50%" stopColor="#F4C430" />
+          <stop offset="100%" stopColor="#EDE4D1" />
+        </linearGradient>
+      </defs>
+      {Array.from({ length: WAVE_LINES }, (_, index) => (
+        <path
+          key={index}
+          ref={(node) => { pathRefs.current[index] = node; }}
+          fill="none"
+          stroke="url(#sound-wave-gradient)"
+          strokeWidth={0.38 + index * 0.025}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          vectorEffect="non-scaling-stroke"
+          opacity={0.3 + index * 0.07}
+          d={wavePath(33 + index * 1.05, index * 0.38, 0.8 + index * 0.07)}
+        />
+      ))}
+    </g>
+  );
+}
+
 const cardFinalBackground: Record<string, string> = {
   clinic: "#0B3A42",
   access: "var(--cream)",
@@ -330,8 +402,7 @@ export default function HomePage() {
             onFocus={handleStageFocus}
           >
             <svg className="orbit-path" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-              <path className="ring" d="M50 14 C67 14 81 28 86 43 C90 57 83 73 70 82 C57 91 39 89 27 81 C13 71 9 53 15 37 C21 22 34 14 50 14Z" />
-              <path className="ring-pulse" pathLength="100" d="M50 14 C67 14 81 28 86 43 C90 57 83 73 70 82 C57 91 39 89 27 81 C13 71 9 53 15 37 C21 22 34 14 50 14Z" />
+              <SonarRing active={motionEnabled} />
             </svg>
 
             {areas.map((area) => (
