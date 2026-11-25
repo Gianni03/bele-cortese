@@ -12,7 +12,7 @@
 | Dominio, SSL y redirect `www → apex` | Listo | Apex 200; `www` 308 al apex |
 | Resend y correo del formulario | Listo | Dominio verificado; envío real probado |
 | Endpoint de contacto | Listo | `POST /api/contacto/`; 16 tests |
-| Home | Componente React | Movimiento pendiente de ajuste |
+| Home | Componente React | Movimiento de esferas ajustado; esperar feedback |
 | Contacto | Componente React | Canales y contenido real pendientes |
 | Clínica | Componente React | Contenido y canales pendientes |
 | Accesibilidad e inclusión | Componente React | Experiencia y permisos pendientes |
@@ -45,9 +45,9 @@ Las correcciones futuras siguen el mismo circuito: `fix/<tema>` → PR → previ
 
 | Orden | Rama | Alcance |
 |---|---|---|
-| 1 | `fix/home-motion` | Ajustar el movimiento de Home |
-| 2 | `content/cliente` | Reemplazar placeholders y revisar legal |
-| 3 | `chore/launch` | Retirar `noindex`, sitemap/robots, QA final |
+| 1 | `content/cliente` | Reemplazar placeholders y revisar legal |
+| 2 | `chore/launch` | Retirar `noindex`, sitemap/robots, QA final |
+| 3 | `fix/home-motion` | Otra pasada solo si el feedback lo pide |
 
 ## Criterio de terminado por página
 

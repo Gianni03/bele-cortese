@@ -149,18 +149,23 @@
       .areas-head p { max-width: 64ch; margin-bottom: 0; color: #D5E0DD; font-size: .92rem; }
       .stage-help { max-width: 56ch; margin: 0; color: #B9C9C5; font-size: .78rem; text-align: left; }
 
-      .orbit-stage { width: min(100%, 1000px); aspect-ratio: 1; position: relative; isolation: isolate; margin-inline: auto; overflow: hidden; background: transparent; color: var(--cream); }
+      .orbit-stage { --sphere-size: clamp(5rem, 20vw, 7rem); width: min(100%, 1000px); aspect-ratio: 1; position: relative; isolation: isolate; margin-inline: auto; overflow: hidden; background: transparent; color: var(--cream); }
       .orbit-path { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; }
       .orbit-path .ring { fill: none; stroke: var(--cream); stroke-opacity: .66; stroke-width: .45; vector-effect: non-scaling-stroke; }
       .orbit-path .pulse { fill: none; stroke: var(--neon); stroke-width: .8; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
-      .sphere { --sphere-size: clamp(5rem, 20vw, 7rem); appearance: none; width: var(--sphere-size); aspect-ratio: 1; position: absolute; z-index: 1; display: grid; place-items: center; padding: .35rem; border: 1px solid #EDE4D1AA; color: var(--black); background-clip: padding-box; font: inherit; text-align: center; cursor: pointer; filter: drop-shadow(0 .55rem .8rem rgb(0 0 0 / .27)); }
-      .sphere::before { content: ""; position: absolute; z-index: -1; inset: -13%; border-radius: inherit; background: radial-gradient(circle, var(--halo) 0 35%, transparent 74%); opacity: .5; }
+      .sphere { appearance: none; width: var(--sphere-size); aspect-ratio: 1; position: absolute; z-index: 1; display: grid; place-items: center; padding: .35rem; border: 1px solid #EDE4D1AA; color: var(--black); background-clip: padding-box; font: inherit; text-align: center; cursor: pointer; }
+      .sphere::before { content: ""; position: absolute; z-index: -1; inset: -13%; border-radius: inherit; background: radial-gradient(circle, var(--halo) 0 35%, transparent 74%); opacity: .16; }
       .sphere-label { max-width: 9ch; font: 700 clamp(.9rem, 1.1vw, 1.05rem)/1.06 var(--label); }
-      .sphere-clinic { top: 14%; left: 14%; border-radius: 43% 57% 60% 40% / 48% 38% 62% 52%; background: var(--coral); --halo: rgb(240 68 68 / .34); }
-      .sphere-access { top: 14%; right: 14%; border-radius: 55% 45% 38% 62% / 43% 61% 39% 57%; background: var(--cream); color: var(--petrol); --halo: rgb(244 196 48 / .32); }
-      .sphere-training { bottom: 14%; left: 14%; border-radius: 61% 39% 53% 47% / 39% 52% 48% 61%; background: var(--neon); --halo: rgb(233 79 186 / .32); }
-      .sphere-welove { bottom: 14%; right: 14%; overflow: hidden; border-radius: 42% 58% 56% 44% / 59% 43% 57% 41%; color: var(--cream); background: var(--black); --halo: rgb(233 79 186 / .34); }
+      .sphere-clinic { top: 9%; left: 9%; border-radius: 38% 62% 57% 43% / 49% 34% 66% 51%; background: var(--coral); --halo: rgb(240 68 68 / .34); }
+      .sphere-access { top: 9%; right: 9%; border-radius: 62% 38% 42% 58% / 38% 64% 36% 62%; background: var(--cream); color: var(--petrol); --halo: rgb(244 196 48 / .32); }
+      .sphere-training { bottom: 9%; left: 9%; border-radius: 40% 60% 34% 66% / 62% 42% 58% 38%; background: var(--neon); --halo: rgb(233 79 186 / .32); }
+      .sphere-welove { bottom: 9%; right: 9%; overflow: hidden; border-radius: 58% 42% 63% 37% / 36% 58% 42% 64%; color: var(--cream); background: var(--black); --halo: rgb(233 79 186 / .34); }
       .sphere-welove::after { content: ""; position: absolute; inset: auto 0 0; height: .32rem; background: linear-gradient(90deg, var(--coral), var(--gold), var(--neon), #078A3C, #2649D8, #A600A6); }
+      .sphere-shadow { position: absolute; z-index: 0; width: calc(var(--sphere-size) + 1.4rem); aspect-ratio: 1; pointer-events: none; border-radius: 46% 54% 58% 42% / 44% 38% 62% 56%; background-color: var(--shadow-color, var(--coral)); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.85'/%3E%3C/svg%3E"); background-blend-mode: soft-light; filter: blur(9px); opacity: .44; }
+      .sphere-shadow-clinic { top: calc(9% + 1rem); left: calc(9% + .35rem); --shadow-color: var(--coral); animation-name: shadow-clinic; }
+      .sphere-shadow-access { top: calc(9% + 1rem); right: calc(9% + .35rem); --shadow-color: var(--cream); animation-name: shadow-access; }
+      .sphere-shadow-training { bottom: calc(9% - .9rem); left: calc(9% + .35rem); --shadow-color: var(--neon); animation-name: shadow-training; }
+      .sphere-shadow-welove { bottom: calc(9% - .9rem); right: calc(9% + .35rem); --shadow-color: var(--fuchsia); animation-name: shadow-welove; }
       .orbit-stage[data-open] .sphere:not([aria-expanded="true"]) { opacity: .22; }
       .orbit-card { position: absolute; z-index: 5; inset: 6%; overflow: hidden; display: flex; flex-direction: column; padding: 1rem; box-shadow: 0 1rem 2.2rem rgb(0 0 0 / .32); }
       .orbit-card[hidden] { display: none; }
@@ -189,10 +194,14 @@
       .center-wordmark-line:first-child { font-size: 1.08em; font-weight: 700; letter-spacing: 28px; }
       .center-wordmark-line:last-child { font-size: 1em; font-weight: 600; }
 
-      body.motion-enabled .sphere-clinic { animation: morph-clinic 11s ease-in-out infinite alternate; }
-      body.motion-enabled .sphere-access { animation: morph-access 12s ease-in-out -3s infinite alternate; }
-      body.motion-enabled .sphere-training { animation: morph-training 10s ease-in-out -5s infinite alternate; }
-      body.motion-enabled .sphere-welove { animation: morph-welove 13s ease-in-out -2s infinite alternate; }
+      body.motion-enabled .sphere-clinic { animation: water-clinic 13s ease-in-out infinite; }
+      body.motion-enabled .sphere-access { animation: water-access 15s ease-in-out -3s infinite; }
+      body.motion-enabled .sphere-training { animation: water-training 14s ease-in-out -6s infinite; }
+      body.motion-enabled .sphere-welove { animation: water-welove 16s ease-in-out -2s infinite; }
+      body.motion-enabled .sphere-shadow-clinic { animation: shadow-clinic 14s ease-in-out infinite; }
+      body.motion-enabled .sphere-shadow-access { animation: shadow-access 16s ease-in-out -4s infinite; }
+      body.motion-enabled .sphere-shadow-training { animation: shadow-training 15s ease-in-out -7s infinite; }
+      body.motion-enabled .sphere-shadow-welove { animation: shadow-welove 17s ease-in-out -2s infinite; }
       body.motion-enabled .sphere::before { animation: sphere-dispersion 5.4s ease-out infinite; }
       body.motion-enabled .sphere-access::before { animation-delay: -1.3s; }
       body.motion-enabled .sphere-training::before { animation-delay: -2.7s; }
@@ -201,10 +210,14 @@
       body.motion-enabled .center-anchor::before { animation: halo-pulse 3.8s ease-in-out infinite; }
       body.motion-enabled .center-anchor::after { animation: halo-pulse 4.7s ease-in-out -1.5s infinite; }
       body.motion-enabled .orbit-path .pulse { animation: sonar-pulse 3.4s ease-in-out infinite; }
-      @keyframes morph-clinic { to { border-radius: 56% 44% 42% 58% / 40% 60% 44% 56%; } }
-      @keyframes morph-access { to { border-radius: 42% 58% 61% 39% / 58% 42% 57% 43%; } }
-      @keyframes morph-training { to { border-radius: 44% 56% 40% 60% / 58% 45% 55% 42%; } }
-      @keyframes morph-welove { to { border-radius: 59% 41% 45% 55% / 43% 57% 42% 58%; } }
+      @keyframes water-clinic { 0%, 100% { border-radius: 38% 62% 57% 43% / 49% 34% 66% 51%; } 25% { border-radius: 47% 53% 63% 37% / 55% 39% 61% 45%; } 50% { border-radius: 56% 44% 38% 62% / 41% 59% 53% 47%; } 75% { border-radius: 42% 58% 52% 48% / 58% 47% 43% 57%; } }
+      @keyframes water-access { 0%, 100% { border-radius: 62% 38% 42% 58% / 38% 64% 36% 62%; } 25% { border-radius: 53% 47% 58% 42% / 46% 57% 43% 54%; } 50% { border-radius: 41% 59% 35% 65% / 61% 40% 60% 39%; } 75% { border-radius: 57% 43% 49% 51% / 52% 61% 39% 48%; } }
+      @keyframes water-training { 0%, 100% { border-radius: 40% 60% 34% 66% / 62% 42% 58% 38%; } 25% { border-radius: 51% 49% 59% 41% / 47% 55% 45% 53%; } 50% { border-radius: 63% 37% 43% 57% / 39% 61% 54% 46%; } 75% { border-radius: 45% 55% 51% 49% / 57% 44% 56% 43%; } }
+      @keyframes water-welove { 0%, 100% { border-radius: 58% 42% 63% 37% / 36% 58% 42% 64%; } 25% { border-radius: 46% 54% 38% 62% / 52% 41% 59% 48%; } 50% { border-radius: 37% 63% 55% 45% / 61% 48% 52% 39%; } 75% { border-radius: 54% 46% 48% 52% / 43% 59% 41% 57%; } }
+      @keyframes shadow-clinic { 0%, 100% { border-radius: 44% 56% 58% 42% / 48% 36% 64% 52%; scale: .96; opacity: .42; } 50% { border-radius: 58% 42% 41% 59% / 39% 61% 48% 52%; scale: 1.04; opacity: .58; } }
+      @keyframes shadow-access { 0%, 100% { border-radius: 61% 39% 45% 55% / 42% 58% 39% 61%; scale: .97; opacity: .4; } 50% { border-radius: 43% 57% 62% 38% / 59% 41% 57% 43%; scale: 1.05; opacity: .56; } }
+      @keyframes shadow-training { 0%, 100% { border-radius: 39% 61% 52% 48% / 58% 43% 57% 42%; scale: .96; opacity: .4; } 50% { border-radius: 57% 43% 38% 62% / 41% 61% 45% 55%; scale: 1.06; opacity: .55; } }
+      @keyframes shadow-welove { 0%, 100% { border-radius: 56% 44% 61% 39% / 43% 58% 42% 57%; scale: .95; opacity: .36; } 50% { border-radius: 42% 58% 45% 55% / 59% 40% 60% 41%; scale: 1.05; opacity: .52; } }
       @keyframes morph-center { to { border-radius: 57% 43% 54% 46% / 43% 57% 44% 56%; } }
       @keyframes sphere-dispersion { 0% { scale: .88; opacity: .44; } 100% { scale: 1.28; opacity: .04; } }
       @keyframes halo-pulse { 0%, 100% { scale: .92; opacity: .28; } 50% { scale: 1.14; opacity: .72; } }
@@ -247,8 +260,7 @@
         .site-footer { grid-template-columns: 1.1fr .9fr; align-items: end; }
       }
       @media (min-width: 940px) {
-        .orbit-stage { overflow: visible; z-index: 2; }
-        .sphere { --sphere-size: 15rem; }
+        .orbit-stage { --sphere-size: 17rem; overflow: visible; z-index: 2; }
         .sphere-label { font-size: 1.05rem; }
         .center-anchor { width: 13rem; }
         .center-wordmark { transform: scale(.38); }
@@ -257,7 +269,7 @@
         .orbit-card[data-side="right"] { right: 1.5rem; left: auto; }
       }
       @media (min-width: 940px) and (max-width: 1099px) {
-        .sphere { --sphere-size: 13rem; }
+        .orbit-stage { --sphere-size: 15rem; }
         .center-anchor { width: 11rem; }
         .center-wordmark { transform: scale(.3); }
       }
@@ -274,13 +286,14 @@
         .center-wordmark { transform: scale(.3); }
       }
       @media (max-width: 380px) {
-        .sphere { --sphere-size: 4.45rem; }
+        .orbit-stage { --sphere-size: 4.45rem; }
         .sphere-label { font-size: .8rem; }
       }
       @media (prefers-reduced-motion: reduce) {
         html { scroll-behavior: auto; }
         .btn:hover { transform: none; }
         .sphere, .orbit-card { transition: none; }
+        .sphere-shadow { animation: none !important; }
       }
     </style>
   </head>

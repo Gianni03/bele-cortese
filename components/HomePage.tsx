@@ -300,6 +300,14 @@ export default function HomePage() {
             </svg>
 
             {areas.map((area) => (
+              <span
+                key={`shadow-${area.name}`}
+                className={`sphere-shadow sphere-shadow-${area.name}`}
+                aria-hidden="true"
+              />
+            ))}
+
+            {areas.map((area) => (
               <button
                 key={area.name}
                 ref={(node) => { sphereRefs.current[area.name] = node; }}
