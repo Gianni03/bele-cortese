@@ -11,7 +11,9 @@ npm run dev
 
 Abrir `http://localhost:3000`.
 
-Preview público: https://bele-cortese.vercel.app/ (hasta que esté el dominio final).
+Producción: https://belencortese.com.ar/  
+Preview: https://bele-cortese.vercel.app/  
+Progreso y próximos pasos: [docs/progress.md](docs/progress.md)
 
 ## Content generation
 
