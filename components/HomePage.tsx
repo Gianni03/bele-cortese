@@ -81,8 +81,8 @@ const cardFinalBackground: Record<string, string> = {
 function getCardStyles(trigger: HTMLButtonElement, name: string) {
   const rect = trigger.getBoundingClientRect();
   const computed = getComputedStyle(trigger);
-  const width = Math.min(400, window.innerWidth - 32);
-  const height = Math.min(520, window.innerHeight - 120);
+  const width = Math.min(620, window.innerWidth - 32);
+  const height = Math.min(340, window.innerHeight - 120);
   const centerX = rect.left + rect.width / 2;
   const centerY = rect.top + rect.height / 2;
   const left = Math.max(16, Math.min(centerX - width / 2, window.innerWidth - width - 16));
@@ -111,6 +111,7 @@ function getCardStyles(trigger: HTMLButtonElement, name: string) {
 
 export default function HomePage() {
   const [openSphere, setOpenSphere] = useState<string | null>(null);
+  const [pinned, setPinned] = useState(false);
   const [cardStyle, setCardStyle] = useState<CSSProperties | null>(null);
   const [isClosing, setIsClosing] = useState(false);
   const [motionEnabled, setMotionEnabled] = useState(true);
@@ -118,11 +119,31 @@ export default function HomePage() {
 
   const sphereRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const cardCloseTimer = useRef<number | null>(null);
+  const hoverCloseTimer = useRef<number | null>(null);
   const suppressFocusOpen = useRef(false);
   const motionChoiceMade = useRef(false);
 
+  const clearHoverClose = () => {
+    if (hoverCloseTimer.current !== null) window.clearTimeout(hoverCloseTimer.current);
+    hoverCloseTimer.current = null;
+  };
+
+  const scheduleClose = () => {
+    if (pinned) return;
+    clearHoverClose();
+    hoverCloseTimer.current = window.setTimeout(() => {
+      if (!openSphere || pinned) return;
+      const trigger = sphereRefs.current[openSphere];
+      const card = document.getElementById(`orbit-card-${openSphere}`);
+      const pointerOnActiveRegion = trigger?.matches(":hover") || card?.matches(":hover");
+      const focusInActiveRegion = trigger?.matches(":focus") || card?.contains(document.activeElement);
+      if (!pointerOnActiveRegion && !focusInActiveRegion) closeCard();
+    }, 260);
+  };
+
   const closeCard = (options: CloseOptions = {}) => {
     if (!openSphere) return;
+    clearHoverClose();
     const active = openSphere;
     const trigger = sphereRefs.current[active];
 
@@ -134,6 +155,7 @@ export default function HomePage() {
     }
 
     const { start } = getCardStyles(trigger, active);
+    setPinned(false);
     setCardStyle(start);
     setIsClosing(true);
 
@@ -150,17 +172,19 @@ export default function HomePage() {
           suppressFocusOpen.current = false;
         }, 0);
       }
-    }, 380);
+    }, 460);
   };
 
-  const openCard = (name: string) => {
+  const openCard = (name: string, pin = false) => {
     const trigger = sphereRefs.current[name];
     if (!trigger) return;
 
+    clearHoverClose();
     if (cardCloseTimer.current !== null) window.clearTimeout(cardCloseTimer.current);
 
     const { start, end } = getCardStyles(trigger, name);
     setIsClosing(false);
+    setPinned(pin);
     setCardStyle(start);
     setOpenSphere(name);
 
@@ -218,7 +242,7 @@ export default function HomePage() {
   const handleStageFocus = (event: FocusEvent<HTMLElement>) => {
     if (suppressFocusOpen.current) return;
     const target = event.target instanceof Element ? event.target.closest("[data-sphere]") : null;
-    if (target) openCard(target.getAttribute("data-sphere") || "");
+    if (target) openCard(target.getAttribute("data-sphere") || "", false);
   };
 
   const contactHref = contactArea ? `/contacto?area=${contactArea}` : "/contacto";
@@ -322,9 +346,12 @@ export default function HomePage() {
                 inert={Boolean(openSphere && openSphere !== area.name)}
                 onPointerEnter={(event) => {
                   if (openSphere === area.name) return;
-                  if (event.pointerType === "mouse" || event.pointerType === "pen") openCard(area.name);
+                  if (event.pointerType === "mouse" || event.pointerType === "pen") openCard(area.name, false);
                 }}
-                onClick={() => openCard(area.name)}
+                onPointerLeave={(event) => {
+                  if (event.pointerType === "mouse" || event.pointerType === "pen") scheduleClose();
+                }}
+                onClick={() => openCard(area.name, true)}
               >
                 <span className="sphere-label">{area.label}</span>
               </button>
@@ -341,6 +368,10 @@ export default function HomePage() {
                 aria-hidden={openSphere !== area.name}
                 inert={openSphere !== area.name}
                 style={openSphere === area.name ? cardStyle ?? undefined : undefined}
+                onPointerEnter={clearHoverClose}
+                onPointerLeave={(event) => {
+                  if (event.pointerType === "mouse" || event.pointerType === "pen") scheduleClose();
+                }}
               >
                 {area.guard ? <div className="expanded-guard" aria-hidden="true" /> : null}
                 <p className="expanded-label">{area.eyebrow}</p>
