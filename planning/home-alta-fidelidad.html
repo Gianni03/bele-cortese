@@ -161,8 +161,10 @@
       .sphere-welove { bottom: 9%; right: 9%; overflow: hidden; border-radius: 58% 42% 63% 37% / 36% 58% 42% 64%; color: var(--cream); background: var(--black); --shadow-rgb: 233 79 186; }
       .sphere-welove::after { content: ""; position: absolute; inset: auto 0 0; height: .32rem; background: linear-gradient(90deg, var(--coral), var(--gold), var(--neon), #078A3C, #2649D8, #A600A6); }
       .orbit-stage[data-open] .sphere:not([aria-expanded="true"]) { opacity: .22; }
-      .orbit-card { position: absolute; z-index: 5; inset: 6%; overflow: hidden; display: flex; flex-direction: column; padding: 1rem; box-shadow: 0 1rem 2.2rem rgb(0 0 0 / .32); }
-      .orbit-card[hidden] { display: none; }
+      .orbit-card { position: absolute; z-index: 5; inset: 6%; overflow: hidden; display: flex; flex-direction: column; padding: 1rem; box-shadow: 0 1rem 2.2rem rgb(0 0 0 / .32); opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(.8rem) scale(.96); transition: opacity .24s ease, transform .32s cubic-bezier(.2,.8,.2,1), visibility 0s linear .32s; will-change: opacity, transform; }
+      .orbit-card.is-open { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0) scale(1); transition: opacity .24s ease, transform .32s cubic-bezier(.2,.8,.2,1), visibility 0s; }
+      .orbit-card[data-side="left"] { transform-origin: left center; }
+      .orbit-card[data-side="right"] { transform-origin: right center; }
       .orbit-card h3 { margin: 0 0 .45rem; font: 700 clamp(1rem, 1.5vw, 1.25rem)/1.05 var(--label); text-transform: uppercase; }
       .orbit-card p { margin: 0 0 1rem; font-size: .875rem; }
       .card-list { margin: 0 0 1rem; padding-left: 1.1rem; font-size: .875rem; }
@@ -178,7 +180,9 @@
       .expanded-access .card-cta { color: var(--cream); background: var(--petrol); }
       .expanded-training .card-cta { color: var(--cream); background: var(--black); }
       .expanded-welove .card-cta { color: var(--black); background: var(--cream); }
-      .sphere, .orbit-card { transition: opacity 180ms ease-out, scale 180ms ease-out; }
+      .sphere { transition: opacity .18s ease, transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .28s ease; }
+      .sphere.is-active { transform: scale(1.04); }
+      .orbit-card { transition: opacity .24s ease, transform .32s cubic-bezier(.2,.8,.2,1), visibility 0s linear .32s; }
       .center-anchor { width: clamp(6rem, 34vw, 9rem); aspect-ratio: 1; position: absolute; z-index: 2; top: 50%; left: 50%; padding: .35rem; border: 1px solid var(--cream); border-radius: 49% 51% 43% 57% / 56% 44% 59% 41%; color: var(--cream); background: var(--petrol); box-shadow: 0 0 0 .45rem rgb(232 240 0 / .08), 0 0 1.5rem rgb(232 240 0 / .3); transform: translate(-50%, -50%); }
       .center-anchor::before, .center-anchor::after { content: ""; position: absolute; inset: -.55rem; border: 1px solid rgb(232 240 0 / .32); border-radius: inherit; pointer-events: none; }
       .center-anchor::after { inset: -.95rem; opacity: .55; }

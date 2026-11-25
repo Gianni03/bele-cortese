@@ -73,6 +73,7 @@ type CloseOptions = { returnFocus?: boolean };
 
 export default function HomePage() {
   const [openSphere, setOpenSphere] = useState<string | null>(null);
+  const [pinned, setPinned] = useState(false);
   const [cardTop, setCardTop] = useState<number | null>(null);
   const [motionEnabled, setMotionEnabled] = useState(true);
   const [contactArea, setContactArea] = useState("");
@@ -92,6 +93,7 @@ export default function HomePage() {
     clearCloseTimer();
     if (!openSphere) return;
     const active = openSphere;
+    setPinned(false);
     setOpenSphere(null);
     setCardTop(null);
 
@@ -106,21 +108,23 @@ export default function HomePage() {
     }
   };
 
-  const openCard = (name: string) => {
+  const openCard = (name: string, pin = false) => {
     clearCloseTimer();
+    setPinned(pin);
     setOpenSphere(name);
   };
 
   const scheduleClose = () => {
+    if (pinned) return;
     clearCloseTimer();
     closeTimer.current = window.setTimeout(() => {
-      if (!openSphere) return;
+      if (!openSphere || pinned) return;
       const trigger = sphereRefs.current[openSphere];
       const card = cardRefs.current[openSphere];
       const pointerOnActiveRegion = trigger?.matches(":hover") || card?.matches(":hover");
       const focusInActiveRegion = trigger?.matches(":focus") || card?.contains(document.activeElement);
       if (!pointerOnActiveRegion && !focusInActiveRegion) closeCard();
-    }, 500);
+    }, 700);
   };
 
   useEffect(() => {
@@ -199,13 +203,13 @@ export default function HomePage() {
   const handleStageFocus = (event: FocusEvent<HTMLElement>) => {
     if (suppressFocusOpen.current) return;
     const target = event.target instanceof Element ? event.target.closest("[data-sphere]") : null;
-    if (target) openCard(target.getAttribute("data-sphere") || "");
+    if (target) openCard(target.getAttribute("data-sphere") || "", true);
   };
 
   const handleStageBlur = (event: FocusEvent<HTMLElement>) => {
     const currentTarget = event.currentTarget;
     window.setTimeout(() => {
-      if (openSphere && !currentTarget.contains(document.activeElement)) closeCard();
+      if (!pinned && openSphere && !currentTarget.contains(document.activeElement)) closeCard();
     }, 0);
   };
 
@@ -303,19 +307,20 @@ export default function HomePage() {
               <button
                 key={area.name}
                 ref={(node) => { sphereRefs.current[area.name] = node; }}
-                className={`sphere ${area.sphereClass}`}
+                className={`sphere ${area.sphereClass}${openSphere === area.name ? " is-active" : ""}`}
                 type="button"
                 data-sphere={area.name}
                 aria-expanded={openSphere === area.name}
                 aria-controls={`orbit-card-${area.name}`}
                 inert={Boolean(openSphere && openSphere !== area.name)}
                 onPointerEnter={(event) => {
-                  if (event.pointerType === "mouse" || event.pointerType === "pen") openCard(area.name);
+                  if (openSphere === area.name) return;
+                  if (event.pointerType === "mouse" || event.pointerType === "pen") openCard(area.name, true);
                 }}
                 onPointerLeave={(event) => {
                   if (event.pointerType === "mouse" || event.pointerType === "pen") scheduleClose();
                 }}
-                onClick={() => openCard(area.name)}
+                onClick={() => openCard(area.name, true)}
               >
                 <span className="sphere-label">{area.label}</span>
               </button>
@@ -325,12 +330,13 @@ export default function HomePage() {
               <article
                 key={area.name}
                 ref={(node) => { cardRefs.current[area.name] = node; }}
-                className={`orbit-card ${area.cardClass}`}
+                className={`orbit-card ${area.cardClass}${openSphere === area.name ? " is-open" : ""}`}
                 id={`orbit-card-${area.name}`}
                 data-orbit-card={area.name}
                 data-side={area.side}
                 aria-labelledby={`orbit-card-${area.name}-title`}
-                hidden={openSphere !== area.name}
+                aria-hidden={openSphere !== area.name}
+                inert={openSphere !== area.name}
                 style={openSphere === area.name && cardTop !== null ? { top: `${cardTop}px` } : undefined}
                 onPointerEnter={clearCloseTimer}
                 onPointerLeave={(event) => {
