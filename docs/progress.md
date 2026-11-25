@@ -17,7 +17,8 @@
 | Clínica | Componente React | Contenido y canales pendientes |
 | Accesibilidad e inclusión | Componente React | Experiencia y permisos pendientes |
 | Formación y experiencias | Componente React | Actividades, fechas y canales pendientes |
-| Otras cuatro páginas | Puente HTML | Migrar a React, una por PR |
+| We Love TO | Componente React | Acceso, precio, fecha y lista de aviso pendientes |
+| Otras tres páginas | Puente HTML | Migrar a React, una por PR |
 | GA4 | Implementado con consentimiento | Falta validación en producción |
 | `noindex` | Activo | Retirar solo con contenido y legal aprobados |
 | Contenido y revisión legal | Pendiente | Depende de Belén |
@@ -42,13 +43,12 @@ Las correcciones futuras siguen el mismo circuito: `fix/<tema>` → PR → previ
 
 | Orden | Rama | Alcance |
 |---|---|---|
-| 1 | `feat/componentize-formacion` | Formación y experiencias a React |
-| 2 | `feat/componentize-welove` | We Love TO a React |
-| 3 | `feat/componentize-trayectoria` | Trayectoria a React |
-| 4 | `feat/componentize-utilidades` | Accesibilidad del sitio y Privacidad |
-| 5 | `fix/home-motion` | Ajustar el movimiento de Home |
-| 6 | `content/cliente` | Reemplazar placeholders y revisar legal |
-| 7 | `chore/launch` | Retirar `noindex`, sitemap/robots, QA final |
+| 1 | `feat/componentize-welove` | We Love TO a React |
+| 2 | `feat/componentize-trayectoria` | Trayectoria a React |
+| 3 | `feat/componentize-utilidades` | Accesibilidad del sitio y Privacidad |
+| 4 | `fix/home-motion` | Ajustar el movimiento de Home |
+| 5 | `content/cliente` | Reemplazar placeholders y revisar legal |
+| 6 | `chore/launch` | Retirar `noindex`, sitemap/robots, QA final |
 
 ## Criterio de terminado por página
 
