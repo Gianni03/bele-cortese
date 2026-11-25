@@ -140,7 +140,8 @@
       .hero-byline { margin: 0; padding-top: .8rem; color: #A9BAB6; font-size: .74rem; }
       .hero-byline a { color: var(--cream); font-weight: 700; }
 
-      .areas { display: block; padding-block: clamp(1rem, 2vw, 2rem) clamp(3rem, 6vw, 5rem); padding-inline: max(1rem, calc((100% - 1120px) / 2)); background: var(--petrol); color: var(--cream); }
+      .areas { display: block; padding-block: clamp(4rem, 8vw, 7rem) clamp(3rem, 6vw, 5rem); padding-inline: max(1rem, calc((100% - 1120px) / 2)); background: var(--petrol); color: var(--cream); opacity: 0; transform: translateY(2rem); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1); }
+      .areas.is-visible { opacity: 1; transform: none; }
       .areas-copy { max-width: 760px; margin-bottom: 1.5rem; }
       .areas-head { display: grid; gap: .45rem; margin-bottom: 1.2rem; }
       .areas .eyebrow { color: var(--neon); }
@@ -274,6 +275,7 @@
         html { scroll-behavior: auto; }
         .btn:hover { transform: none; }
         .sphere, .orbit-card { transition: none; }
+        .areas { opacity: 1; transform: none; transition: none; }
       }
     </style>
   </head>
@@ -308,13 +310,14 @@
           <h1 id="hero-title" aria-label="Bele Cortese"><span class="wordmark-line">BELE</span><span class="wordmark-line">CORTESE<span class="brand-slash" aria-hidden="true"></span></span></h1>
           <span class="tagline">Otra manera de mirar.</span>
           <p class="descriptor">Neurodiversidad · Inclusión · Accesibilidad</p>
+          <p class="hero-byline">María Belén Cortese · Terapeuta Ocupacional · <a href="trayectoria-alta-fidelidad.html">Trayectoria</a></p>
         </div>
         <div class="hero-art" aria-hidden="true">
           <img class="dot-mark" src="../Diseños/logosolo.png" alt="" width="194" height="200">
         </div>
       </section>
 
-      <section class="areas" id="areas" aria-labelledby="areas-title">
+      <section class="areas is-visible" id="areas" aria-labelledby="areas-title">
         <div class="areas-copy">
             <div class="areas-head">
               <p class="eyebrow">Una identidad · cuatro recorridos</p>

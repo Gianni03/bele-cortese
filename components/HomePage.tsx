@@ -188,7 +188,9 @@ export default function HomePage() {
   const [isClosing, setIsClosing] = useState(false);
   const [motionEnabled, setMotionEnabled] = useState(true);
   const [contactArea, setContactArea] = useState("");
+  const [areasVisible, setAreasVisible] = useState(false);
 
+  const areasRef = useRef<HTMLElement | null>(null);
   const sphereRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const cardCloseTimer = useRef<number | null>(null);
   const hoverCloseTimer = useRef<number | null>(null);
@@ -284,6 +286,28 @@ export default function HomePage() {
   }, [motionEnabled]);
 
   useEffect(() => {
+    const section = areasRef.current;
+    if (!section) return;
+
+    if (!("IntersectionObserver" in window)) {
+      setAreasVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setAreasVisible(true);
+        observer.disconnect();
+      },
+      { threshold: 0.16, rootMargin: "0px 0px -8% 0px" },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
     const handlePointerDown = (event: PointerEvent) => {
       const target = event.target instanceof Element ? event.target : null;
       if (openSphere && !target?.closest("[data-sphere], [data-orbit-card]")) closeCard();
@@ -372,13 +396,19 @@ export default function HomePage() {
             </h1>
             <span className="tagline">Otra manera de mirar.</span>
             <p className="descriptor">Neurodiversidad · Inclusión · Accesibilidad</p>
+            <p className="hero-byline">María Belén Cortese · Terapeuta Ocupacional · <a href="/trayectoria">Trayectoria</a></p>
           </div>
           <div className="hero-art" aria-hidden="true">
             <img className="dot-mark" src="/Diseños/logosolo.png" alt="" width="194" height="200" />
           </div>
         </section>
 
-        <section className="areas" id="areas" aria-labelledby="areas-title">
+        <section
+          ref={areasRef}
+          className={`areas${areasVisible ? " is-visible" : ""}`}
+          id="areas"
+          aria-labelledby="areas-title"
+        >
           <div className="areas-copy">
             <div className="areas-head">
               <p className="eyebrow">Una identidad · cuatro recorridos</p>
