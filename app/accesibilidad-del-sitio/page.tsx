@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { StaticPage } from "@/components/StaticPage";
+import AccesibilidadSitioPage from "@/components/AccesibilidadSitioPage";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata["accesibilidad-sitio"];
 
-export default function AccesibilidadSitioPage() {
-  return <StaticPage slug="accesibilidad-sitio" />;
+export default function Page() {
+  return <AccesibilidadSitioPage />;
 }
