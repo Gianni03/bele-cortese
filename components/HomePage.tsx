@@ -188,9 +188,7 @@ export default function HomePage() {
   const [isClosing, setIsClosing] = useState(false);
   const [motionEnabled, setMotionEnabled] = useState(true);
   const [contactArea, setContactArea] = useState("");
-  const [areasVisible, setAreasVisible] = useState(false);
 
-  const areasRef = useRef<HTMLElement | null>(null);
   const sphereRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const cardCloseTimer = useRef<number | null>(null);
   const hoverCloseTimer = useRef<number | null>(null);
@@ -284,28 +282,6 @@ export default function HomePage() {
     document.body.classList.toggle("motion-enabled", motionEnabled);
     return () => document.body.classList.remove("motion-enabled");
   }, [motionEnabled]);
-
-  useEffect(() => {
-    const section = areasRef.current;
-    if (!section) return;
-
-    if (!("IntersectionObserver" in window)) {
-      setAreasVisible(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        setAreasVisible(true);
-        observer.disconnect();
-      },
-      { threshold: 0.16, rootMargin: "0px 0px -8% 0px" },
-    );
-
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => {
     const handlePointerDown = (event: PointerEvent) => {
@@ -403,12 +379,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section
-          ref={areasRef}
-          className={`areas${areasVisible ? " is-visible" : ""}`}
-          id="areas"
-          aria-labelledby="areas-title"
-        >
+        <section className="areas" id="areas" aria-labelledby="areas-title">
           <div className="areas-copy">
             <div className="areas-head">
               <p className="eyebrow">Una identidad · cuatro recorridos</p>
