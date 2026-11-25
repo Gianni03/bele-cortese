@@ -1,6 +1,6 @@
 # Bele Cortese — Next.js preview
 
-Migración a Next.js App Router + React. Home y Contacto ya son componentes React con su comportamiento nativo; las otras siete páginas se sirven desde el puente generado en `content/pages.js` y se convertirán en la siguiente etapa. No es todavía la implementación final.
+Migración a Next.js App Router + React. Todas las páginas son componentes React; `content/pages.js` se mantiene solo como fuente de estilos embebidos y no se sirve HTML crudo. La implementación sigue en revisión de contenido y legal.
 
 ## Development
 

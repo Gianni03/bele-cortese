@@ -19,7 +19,8 @@
 | Formación y experiencias | Componente React | Actividades, fechas y canales pendientes |
 | We Love TO | Componente React | Acceso, precio, fecha y lista de aviso pendientes |
 | Trayectoria | Componente React | Credenciales, experiencia y foto pendientes |
-| Otras dos páginas | Puente HTML | Migrar a React, una por PR |
+| Accesibilidad del sitio | Componente React | Reporte y auditoría final pendientes |
+| Privacidad | Componente React | Revisión legal y datos del responsable pendientes |
 | GA4 | Implementado con consentimiento | Falta validación en producción |
 | `noindex` | Activo | Retirar solo con contenido y legal aprobados |
 | Contenido y revisión legal | Pendiente | Depende de Belén |
@@ -44,11 +45,9 @@ Las correcciones futuras siguen el mismo circuito: `fix/<tema>` → PR → previ
 
 | Orden | Rama | Alcance |
 |---|---|---|
-| 1 | `feat/componentize-trayectoria` | Trayectoria a React |
-| 2 | `feat/componentize-utilidades` | Accesibilidad del sitio y Privacidad |
-| 3 | `fix/home-motion` | Ajustar el movimiento de Home |
-| 4 | `content/cliente` | Reemplazar placeholders y revisar legal |
-| 5 | `chore/launch` | Retirar `noindex`, sitemap/robots, QA final |
+| 1 | `fix/home-motion` | Ajustar el movimiento de Home |
+| 2 | `content/cliente` | Reemplazar placeholders y revisar legal |
+| 3 | `chore/launch` | Retirar `noindex`, sitemap/robots, QA final |
 
 ## Criterio de terminado por página
 
