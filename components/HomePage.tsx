@@ -238,9 +238,7 @@ export default function HomePage() {
       return;
     }
 
-    const { start } = getCardStyles(trigger, active);
     setPinned(false);
-    setCardStyle(start);
     setIsClosing(true);
 
     if (cardCloseTimer.current !== null) window.clearTimeout(cardCloseTimer.current);
@@ -256,7 +254,7 @@ export default function HomePage() {
           suppressFocusOpen.current = false;
         }, 0);
       }
-    }, 460);
+    }, 300);
   };
 
   const openCard = (name: string, pin = false, focusCard = false) => {

@@ -148,7 +148,7 @@
       .areas-head p { max-width: 64ch; margin-bottom: 0; color: #D5E0DD; font-size: .92rem; }
       .stage-help { max-width: 56ch; margin: 0; color: #B9C9C5; font-size: .78rem; text-align: left; }
 
-      .orbit-stage { --sphere-size: clamp(5rem, 20vw, 7rem); width: min(100%, 1000px); aspect-ratio: 1; position: relative; isolation: isolate; margin-inline: auto; overflow: hidden; background: transparent; color: var(--cream); }
+      .orbit-stage { --sphere-size: clamp(5rem, 20vw, 7rem); width: min(100%, 1000px); aspect-ratio: 1; position: relative; isolation: isolate; margin-inline: auto; overflow: visible; background: transparent; color: var(--cream); }
       .orbit-path { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; }
       .orbit-path .sound-wave { opacity: .95; }
       .orbit-path .sound-wave path { fill: none; }
@@ -162,6 +162,7 @@
       .orbit-stage[data-open] .sphere:not([aria-expanded="true"]) { opacity: .22; }
       .orbit-card { position: fixed; z-index: 9; top: auto; left: auto; right: auto; bottom: auto; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); grid-template-rows: auto auto auto auto 1fr; grid-template-areas: "guard guard" "title list" "description list" "label label" "cta cta"; align-items: start; gap: .45rem 1.4rem; padding: 1.4rem; border-radius: .9rem; box-shadow: 0 1rem 2.2rem rgb(0 0 0 / .32); opacity: 0; visibility: hidden; pointer-events: none; transition: top .45s cubic-bezier(.16,1,.3,1), left .45s cubic-bezier(.16,1,.3,1), width .45s cubic-bezier(.16,1,.3,1), height .45s cubic-bezier(.16,1,.3,1), border-radius .45s cubic-bezier(.16,1,.3,1), background-color .3s ease, opacity .2s ease, visibility 0s linear .45s; will-change: top, left, width, height, border-radius, background-color; }
       .orbit-card.is-open { opacity: 1; visibility: visible; pointer-events: auto; transition: top .45s cubic-bezier(.16,1,.3,1), left .45s cubic-bezier(.16,1,.3,1), width .45s cubic-bezier(.16,1,.3,1), height .45s cubic-bezier(.16,1,.3,1), border-radius .45s cubic-bezier(.16,1,.3,1), background-color .3s ease, opacity .2s ease, visibility 0s; }
+      .orbit-card.is-open.is-closing { opacity: 0; visibility: visible; pointer-events: none; transition: opacity .2s ease, visibility 0s linear .2s; }
       .orbit-card:focus-visible { outline: 3px solid var(--neon); outline-offset: 3px; }
       .orbit-card.is-settled { overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; }
       .orbit-card > * { opacity: 0; transition: opacity .18s ease; }
@@ -258,6 +259,7 @@
         .center-wordmark { transform: scale(.3); }
       }
       @media (max-width: 760px) {
+        .areas { overflow-x: clip; }
         .topbar { position: static; }
         .topbar-inner { align-items: flex-start; flex-direction: column; }
         .main-nav { justify-content: flex-start; }
