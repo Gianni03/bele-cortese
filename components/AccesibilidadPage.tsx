@@ -1,4 +1,5 @@
 import { pages } from "@/content/pages";
+import SiteNav from "@/components/SiteNav";
 
 export default function AccesibilidadPage() {
   return (
@@ -19,13 +20,7 @@ export default function AccesibilidadPage() {
               <span className="brand-role">Neurodiversidad · Inclusión · Accesibilidad</span>
             </span>
           </a>
-          <nav className="main-nav" aria-label="Navegación principal">
-            <a href="/clinica">Clínica</a>
-            <a href="#accesibilidad" aria-current="page">Accesibilidad</a>
-            <a href="/formacion">Formación</a>
-            <a href="/we-love-to">We Love TO</a>
-            <a href="/contacto?area=accesibilidad">Contacto</a>
-          </nav>
+          <SiteNav active="accesibilidad" />
         </div>
       </header>
 
