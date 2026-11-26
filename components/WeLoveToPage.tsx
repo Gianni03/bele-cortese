@@ -1,4 +1,5 @@
 import { pages } from "@/content/pages";
+import SiteNav from "@/components/SiteNav";
 
 export default function WeLoveToPage() {
   return (
@@ -19,13 +20,7 @@ export default function WeLoveToPage() {
               <span className="brand-role">Neurodiversidad · Inclusión · Accesibilidad</span>
             </span>
           </a>
-          <nav className="main-nav" aria-label="Navegación principal">
-            <a href="/clinica">Clínica</a>
-            <a href="/accesibilidad-inclusion">Accesibilidad</a>
-            <a href="/formacion">Formación</a>
-            <a href="#welove" aria-current="page">We Love TO</a>
-            <a href="/contacto?area=welove">Contacto</a>
-          </nav>
+          <SiteNav active="welove" />
         </div>
       </header>
 

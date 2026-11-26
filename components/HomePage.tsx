@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties, type FocusEvent } from "react";
 import { pages } from "@/content/pages";
+import SiteNav from "@/components/SiteNav";
 
 type Area = {
   name: string;
@@ -382,28 +383,27 @@ export default function HomePage() {
               <span className="brand-role">Neurodiversidad · Inclusión · Accesibilidad</span>
             </span>
           </a>
-          <nav className="main-nav" aria-label="Recorridos principales">
-            <a href="/clinica">Clínica</a>
-            <a href="/accesibilidad-inclusion">Accesibilidad</a>
-            <a href="/formacion">Formación</a>
-            <a href="/we-love-to">We Love TO</a>
-            <span className="motion-control">
-              <span className="motion-status" id="motion-status" aria-live="polite">{motionEnabled ? "Activado" : "Pausado"}</span>
-              <button
-                className="motion-toggle"
-                id="motion-toggle"
-                type="button"
-                aria-pressed={motionEnabled}
-                aria-describedby="motion-status"
-                onClick={() => {
-                  motionChoiceMade.current = true;
-                  setMotionEnabled((enabled) => !enabled);
-                }}
-              >
-                Movimiento
-              </button>
-            </span>
-          </nav>
+          <SiteNav
+            active="inicio"
+            motion={
+              <span className="motion-control">
+                <span className="motion-status" id="motion-status" aria-live="polite">{motionEnabled ? "Activado" : "Pausado"}</span>
+                <button
+                  className="motion-toggle"
+                  id="motion-toggle"
+                  type="button"
+                  aria-pressed={motionEnabled}
+                  aria-describedby="motion-status"
+                  onClick={() => {
+                    motionChoiceMade.current = true;
+                    setMotionEnabled((enabled) => !enabled);
+                  }}
+                >
+                  Movimiento
+                </button>
+              </span>
+            }
+          />
         </div>
       </header>
 

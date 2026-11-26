@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import SiteNav from "@/components/SiteNav";
 
 const allowedAreas = new Set(["clinica", "accesibilidad", "formacion", "welove", "general"]);
 type Area = "clinica" | "accesibilidad" | "formacion" | "welove" | "general";
@@ -127,13 +128,7 @@ export default function ContactPage() {
               <span className="brand-role">Neurodiversidad · Inclusión · Accesibilidad</span>
             </span>
           </a>
-          <nav className="main-nav" aria-label="Navegación principal">
-            <a href="/clinica">Clínica</a>
-            <a href="/accesibilidad-inclusion">Accesibilidad</a>
-            <a href="/formacion">Formación</a>
-            <a href="/we-love-to">We Love TO</a>
-            <a href="#contacto" aria-current="page">Contacto</a>
-          </nav>
+          <SiteNav active="contacto" />
         </div>
       </header>
 

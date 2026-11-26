@@ -1,4 +1,5 @@
 import { pages } from "@/content/pages";
+import SiteNav from "@/components/SiteNav";
 
 export default function ClinicaPage() {
   return (
@@ -19,14 +20,7 @@ export default function ClinicaPage() {
               <span className="brand-role">Neurodiversidad · Inclusión · Accesibilidad</span>
             </span>
           </a>
-          <nav className="main-nav" aria-label="Navegación principal">
-            <a href="/">Home</a>
-            <a href="#clinica" aria-current="page">Clínica</a>
-            <a href="/accesibilidad-inclusion">Accesibilidad</a>
-            <a href="/formacion">Formación</a>
-            <a href="/we-love-to">We Love TO</a>
-            <a href="/contacto?area=clinica">Contacto</a>
-          </nav>
+          <SiteNav active="clinica" />
         </div>
       </header>
 
